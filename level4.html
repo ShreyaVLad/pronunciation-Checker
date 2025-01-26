@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level Page</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #3494E6, #EC6EAD);
+            overflow: hidden;
+            color: #fff;
+        }
+
+        #container {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            animation: fadeIn 1s ease-in-out;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        #challenge {
+            font-size: 24px;
+            margin-bottom: 30px;
+            opacity: 1;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+        }
+
+        #result {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #4CAF50;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            outline: none;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Style for the pop-up modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background: linear-gradient(135deg, #3494E6, #EC6EAD);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .modal-content {
+            color: #fff;
+        }
+
+        .close {
+            color: #fff;
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Style for the next pop-up modal */
+        #nextPopup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background: linear-gradient(135deg, #3494E6, #EC6EAD);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        #nextPopup-content {
+            color: #fff;
+        }
+
+        #nextButtons button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease-in-out;
+            outline: none;
+        }
+
+        #nextButtons button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body onload="startChallenge()">
+    <div id="container">
+        <h1>Level 4</h1>
+        <div id="challenge">Let' start the challenge! Click on next!</div>
+        <div id="result"></div>
+
+        <button onclick="startChallenge()">Listen and Check</button>
+        <button onclick="showNextChallenge()">Next</button>
+    </div>
+
+    <!-- Add the pop-up modal -->
+    <div id="popup" class="modal">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <div class="modal-content">
+            <p>Congratulations! You have completed Level 4!</p>
+            <p>Wonderful!One step closer to success!!</p>
+        </div>
+    </div>
+
+    <!-- Add the next pop-up modal -->
+    <div id="nextPopup" class="modal">
+        <div class="modal-content" id="nextPopup-content">
+            <p>What would you like to do next?</p>
+            <div id="nextButtons">
+                <button onclick="exitLevel()">Exit</button>
+                <button onclick="nextLevel()">Next Level</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+         var currentChallengeIndex = 0;
+        var challenges = [
+        "Let's start the challenge! Click on next!",  "I am eating lunch.", "She walked to the store.", "I will call you later.", "He has a friendly personality.",
+            "How much does it cost?", "This book is more interesting.", "I'd like to buy a book.", "I have a headache.", "Where are you going today?",
+            "Describe the picture to me.", "You are my bestest friend!", "What is bothering you?", "I know what I should do.",
+            "Nice gesture", "Hey friend? How are you?", "I like chess more than volleyboll", "Is that making any difference?", "You are a good player!"
+        ];
+
+        function startChallenge() {
+            var challengeDiv = document.getElementById('challenge');
+            var resultDiv = document.getElementById('result');
+            
+            // Simulate pronunciation checking logic (replace with your actual logic)
+            checkPronunciation(challenges[currentChallengeIndex])
+                .then(result => {
+                    if (result.correct) {
+                        resultDiv.innerHTML = "Perfect pronunciation!";
+                        resultDiv.style.color = "#4CAF50";
+                    } else {
+                        resultDiv.innerHTML = "Incorrect pronunciation. Try again!";
+                        resultDiv.style.color = "#ff3333";
+                    }
+
+                    challengeDiv.innerHTML = challenges[currentChallengeIndex];
+                    challengeDiv.style.opacity = 1;
+                    challengeDiv.style.transform = "translateY(0)";
+                })
+                .catch(error => {
+                    console.error("Error checking pronunciation:", error);
+                    resultDiv.innerHTML = "An error occurred. Please try again.";
+                    resultDiv.style.color = "#ff3333";
+                });
+        }
+        function checkPronunciation(phrase) {
+            // Dummy function to simulate checking pronunciation with a Python backend
+            // Replace with your actual backend integration logic
+            return new Promise((resolve, reject) => {
+                // Simulate an asynchronous request to the backend
+                setTimeout(() => {
+                    // Replace this with actual backend URL
+                    fetch('http://your-backend-url/check-pronunciation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ phrase: phrase }),
+                    })
+                        .then(response => response.json())
+                        .then(data => resolve(data))
+                        .catch(error => reject(error));
+                }, 1000); // Simulate a delay for the backend request
+            });
+        }
+
+        function showNextChallenge() {
+            var challengeDiv = document.getElementById('challenge');
+            var resultDiv = document.getElementById('result');
+            
+            // Reset result and increment challenge index
+            resultDiv.innerHTML = '';
+            resultDiv.style.color = "#4CAF50"; // Reset color
+
+            currentChallengeIndex++;
+
+            // Check if there are more challenges
+
+            if (currentChallengeIndex < challenges.length) {
+                challengeDiv.innerHTML = challenges[currentChallengeIndex];
+                challengeDiv.style.opacity = 1;
+                challengeDiv.style.transform = "translateY(0)";
+            } else {
+                // All challenges completed
+                openPopup();
+            }
+        }
+
+        function openPopup() {
+            var popup = document.getElementById('popup');
+            popup.style.display = 'block';
+        }
+
+        function closePopup() {
+            var popup = document.getElementById('popup');
+            popup.style.display = 'none';
+            // Automatically redirect to Level 2
+            window.location.href = 'level3.html';
+        }
+
+        function closePopup() {
+            var popup = document.getElementById('popup');
+            popup.style.display = 'none';
+            openNextPopup();
+        }
+
+        function openNextPopup() {
+            var nextPopup = document.getElementById('nextPopup');
+            nextPopup.style.display = 'block';
+        }
+
+        function exitLevel() {
+            // Implement your logic for exiting the level (e.g., redirect to home page)
+            window.location.href = 'index.html';
+        }
+
+        function nextLevel() {
+            // Redirect to Level 2
+            window.location.href = 'level5.html';
+        }
+    </script>
+</body>
+</html>

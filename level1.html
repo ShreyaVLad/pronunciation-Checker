@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level Page</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #3494E6, #EC6EAD);
+            overflow: hidden;
+            color: #fff;
+        }
+
+        #container {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            animation: fadeIn 1s ease-in-out;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        #challenge {
+            font-size: 24px;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+        }
+
+        #result {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #4CAF50;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            outline: none;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Style for the pop-up modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background: linear-gradient(135deg, #3494E6, #EC6EAD);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .modal-content {
+            color: #fff;
+        }
+
+        .close {
+            color: #fff;
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Style for the next pop-up modal */
+        #nextPopup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background: linear-gradient(135deg, #3494E6, #EC6EAD);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        #nextPopup-content {
+            color: #fff;
+        }
+
+        #nextButtons button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease-in-out;
+            outline: none;
+        }
+
+        #nextButtons button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body onload="startChallenge()">
+    <div id="container">
+        <h1>Level 1</h1>
+        <div id="challenge">Click the "Listen and Check" button after the word or phrase is spoken.</div>
+        <div id="result"></div>
+
+        <button onclick="startChallenge()">Listen and Check</button>
+        <button onclick="showNextChallenge()">Next</button>
+    </div>
+
+    <!-- Add the pop-up modal -->
+    <div id="popup" class="modal">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <div class="modal-content">
+            <p>Congratulations! You have completed Level 1!</p>
+            <p>Keep Learning! You are good to go!!</p>
+        </div>
+    </div>
+
+    <!-- Add the next pop-up modal -->
+    <div id="nextPopup" class="modal">
+        <div class="modal-content" id="nextPopup-content">
+            <p>What would you like to do next?</p>
+            <div id="nextButtons">
+                <button onclick="exitLevel()">Exit</button>
+                <button onclick="nextLevel()">Next Level</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var currentChallengeIndex = 0;
+        var challenges = [
+           "Let's start the challenge! Click on next!" ,"Hello", "Goodbye", "Thank you", "Welcome",
+            "Excuse me", "Sorry", "Yes", "No", "Please",
+            "Violet", "Banana", "Dog", "Dog", "Nice",
+            "Good", "afternoon", "Train", "Walk", "Evening"
+        ];
+
+        function startChallenge() {
+            var challengeDiv = document.getElementById('challenge');
+            var resultDiv = document.getElementById('result');
+
+            challengeDiv.innerHTML = challenges[currentChallengeIndex];
+            challengeDiv.style.opacity = 1;
+            challengeDiv.style.transform = "translateY(0)";
+        }
+
+        function showNextChallenge() {
+            var challengeDiv = document.getElementById('challenge');
+            var resultDiv = document.getElementById('result');
+
+            // Reset result and increment challenge index
+            resultDiv.innerHTML = '';
+            resultDiv.style.color = "#4CAF50"; // Reset color
+
+            currentChallengeIndex++;
+
+            // Check if there are more challenges
+            if (currentChallengeIndex < challenges.length) {
+                challengeDiv.innerHTML = challenges[currentChallengeIndex];
+                challengeDiv.style.opacity = 1;
+                challengeDiv.style.transform = "translateY(0)";
+            } else {
+                // All challenges completed
+                openPopup();
+            }
+        }
+
+        function openPopup() {
+            var popup = document.getElementById('popup');
+            popup.style.display = 'block';
+        }
+
+        function closePopup() {
+            var popup = document.getElementById('popup');
+            popup.style.display = 'none';
+            // Automatically redirect to Level 2
+            window.location.href = 'level2.html';
+        }
+
+        function closePopup() {
+            var popup = document.getElementById('popup');
+            popup.style.display = 'none';
+            openNextPopup();
+        }
+
+        function openNextPopup() {
+            var nextPopup = document.getElementById('nextPopup');
+            nextPopup.style.display = 'block';
+        }
+
+        function exitLevel() {
+            // Implement your logic for exiting the level (e.g., redirect to home page)
+            window.location.href = 'index.html';
+        }
+
+        function nextLevel() {
+            // Redirect to Level 2
+            window.location.href = 'level2.html';
+        }
+    </script>
+</body>
+</html>

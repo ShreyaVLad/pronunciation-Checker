@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Create Account</title>
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin: 10px 0 5px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: #ff0000;
+            margin-top: 10px;
+        }
+
+        #signupFormContainer {
+            display: none;
+        }
+
+        #signupFormContainer form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function showSignupForm() {
+            document.getElementById('loginFormContainer').style.display = 'none';
+            document.getElementById('signupFormContainer').style.display = 'block';
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginFormContainer').style.display = 'block';
+            document.getElementById('signupFormContainer').style.display = 'none';
+            document.getElementById('confirmationMessage').style.display = 'none';
+        }
+    </script>
+
+    <div class="container">
+        <div id="loginFormContainer">
+            <form id="loginForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <h2>Login</h2>
+                <label for="loginUsername">Username:</label>
+                <input type="text" id="login
+                                <input type="text" id="loginUsername" name="loginUsername" required>
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" name="loginPassword" required>
+                <button type="submit" name="loginSubmit">Login</button>
+                <p id="loginErrorMessage" class="error-message"><?php if (isset($loginErrorMessage)) echo $loginErrorMessage; ?></p>
+            </form>
+            <p id="createAccountMessage">Don't have an account? <a href="#" onclick="showSignupForm()">Create one</a></p>
+        </div>
+
+        <div id="signupFormContainer">
+            <form id="signupForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <h2>Create Account</h2>
+                <label for="signupFirstName">First Name:</label>
+                <input type="text" id="signupFirstName" name="signupFirstName" required>
+                <label for="signupLastName">Last Name:</label>
+                <input type="text" id="signupLastName" name="signupLastName" required>
+                <label for="signupUsername">Username:</label>
+                <input type="text" id="signupUsername" name="signupUsername" required>
+                <label for="signupAge">Age:</label>
+                <input type="number" id="signupAge" name="signupAge" required>
+                <label for="signupPassword">Password:</label>
+                <input type="password" id="signupPassword" name="signupPassword" required>
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <button type="submit" name="signupSubmit">Confirm</button>
+                <p id="signupErrorMessage" class="error-message"><?php if (isset($signupErrorMessage)) echo $signupErrorMessage; ?></p>
+            </form>
+
+            <div id="confirmationMessage" style="display: none;">
+                <p>Account successfully created!</p>
+                <button onclick="showLoginForm()">Sign In</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
